@@ -1,6 +1,6 @@
 # haofma
 Author: [Haofeng Ma](https://clas.uiowa.edu/polisci/people/haofeng-ma) (haofeng-ma@uiowa.edu)
-<br>This repository hosts my assignment submissions and final project for the course:
+<br>This repository hosts the codes and data for my final project for the course:
 
 **GEOG:5055 Geospatial Programming**
 <br>*Spring 2022*
