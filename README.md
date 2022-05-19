@@ -28,4 +28,4 @@ Course Instructor: [Caglar Koylu, Ph.D.](https://clas.uiowa.edu/geography/people
 - Reisinger, William M., Marina Zaloznaya, and Haofeng Ma. “The Political Ramifications of Corruption Experience for Political Trust and Pro-Leadership Voting: Evidence from Russia.” *Russian Politics* 7(2): 287-308.
 
 ### CV
-My information about the author can be found in the [CV](https://github.com/geog3050/haofma/files/8725107/haofeng_ma_cv.pdf).
+More information about the author can be found in the [CV](https://github.com/geog3050/haofma/files/8725107/haofeng_ma_cv.pdf).
