@@ -1,6 +1,6 @@
-# README
+# Geospatial Programming
 Author: [Haofeng Ma](https://clas.uiowa.edu/polisci/people/haofeng-ma) (haofeng-ma@uiowa.edu)
-<br>This repository is the portfolio of my works for the course:
+<br>This repository is the portfolio of my works for the course
 
 GEOG:5055 Geospatial Programming
 <br>*Spring 2022*
