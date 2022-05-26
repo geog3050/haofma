@@ -9,7 +9,7 @@ Course Instructor: [Caglar Koylu, Ph.D.](https://clas.uiowa.edu/geography/people
 <br>Course Administration: [Department of Geographical and Sustainability Sciences](https://clas.uiowa.edu/geography/), [College of Liberal Arts and Sciences](https://clas.uiowa.edu), [The University of Iowa](https://uiowa.edu)
 
 ## About the Author
-<br>Haofeng Ma is a Ph.D. Candidate in Political Science. Before joining The University of Iowa in 2019, he got his baccalaureate and master's degrees from two Chinese universities. His major research interest is comparative politics, with the particular focuses on the issues of public opinion and political linguistics. Along with his research for the Ph.D. in Political Science, Haofeng is also working towards an M.S. in Geoinformatics in the Department of Computer Science at the University.
+Haofeng Ma is a Ph.D. Candidate in Political Science. Before joining The University of Iowa in 2019, he got his baccalaureate and master's degrees from two Chinese universities. His major research interest is comparative politics, with the particular focuses on the issues of public opinion and political linguistics. Along with his research for the Ph.D. in Political Science, Haofeng is also working towards an M.S. in Geoinformatics in the Department of Computer Science at the University.
 
 ### Education
 - [The University of Iowa](https://uiowa.edu) (Iowa City, Iowa, United States)
