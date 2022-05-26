@@ -4,11 +4,9 @@ Author: [Haofeng Ma](https://clas.uiowa.edu/polisci/people/haofeng-ma) (haofeng-
 
 GEOG:5055 Geospatial Programming
 <br>*Spring 2022*
-<br>*The University of Iowa*
-
 
 Course Instructor: [Caglar Koylu, Ph.D.](https://clas.uiowa.edu/geography/people/caglar-koylu) (caglar-koylu@uiowa.edu)
-<br>Course Administration: Department of Geographical and Sustainability Sciences, College of Liberal Arts and Sciences
+<br>Course Administration: [Department of Geographical and Sustainability Sciences](https://clas.uiowa.edu/geography/), [College of Liberal Arts and Sciences](https://clas.uiowa.edu), [The University of Iowa](https://uiowa.edu)
 
 ## About the Author
 <br>Haofeng Ma is a Ph.D. Candidate in Political Science. Before joining The University of Iowa in 2019, he got his baccalaureate and master's degrees from two Chinese universities. His major research interest is comparative politics, with the particular focuses on the issues of public opinion and political linguistics. Along with his research for the Ph.D. in Political Science, Haofeng is also working towards an M.S. in Geoinformatics in the Department of Computer Science at the University.
