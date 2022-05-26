@@ -2,8 +2,8 @@
 Author: [Haofeng Ma](https://clas.uiowa.edu/polisci/people/haofeng-ma) (haofeng-ma@uiowa.edu)
 <br>This repository is the portfolio of my works for the course
 
-GEOG:5055 Geospatial Programming
-<br>*Spring 2022*
+**GEOG:5055 Geospatial Programming
+<br>*Spring 2022***
 
 Course Instructor: [Caglar Koylu, Ph.D.](https://clas.uiowa.edu/geography/people/caglar-koylu) (caglar-koylu@uiowa.edu)
 <br>Course Administration: [Department of Geographical and Sustainability Sciences](https://clas.uiowa.edu/geography/), [College of Liberal Arts and Sciences](https://clas.uiowa.edu), [The University of Iowa](https://uiowa.edu)
