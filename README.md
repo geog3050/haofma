@@ -1,4 +1,4 @@
-# GEOG:5055 Geospatial Programming
+# GEOG:5055 Geospatial Programming - Haofeng Ma
 Author: [Haofeng Ma](https://clas.uiowa.edu/polisci/people/haofeng-ma) (haofeng-ma@uiowa.edu)
 <br>This repository is the portfolio of my works for the course
 
