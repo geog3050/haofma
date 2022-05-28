@@ -186,7 +186,7 @@ def estimateTotalLineLengthInPolygons(fcLine, fcClipPolygon, polygonIDFieldName,
     fcClipPolygon_unit = fcClipPolygon_reference.linearUnitName
 
     converter = 1 # A unit converter to mile
-    if fcClipPolygon_unit == 'Meter': # If the linear unit is missing, the default should be meter
+    if fcClipPolygon_unit == 'Meter':
         converter = 0.00062137119224
     else:
         pass
@@ -206,8 +206,6 @@ def estimateTotalLineLengthInPolygons(fcLine, fcClipPolygon, polygonIDFieldName,
             length += row[0] * converter
 
     return('The total length of ' + fcLine_name + ' within the polygon ' + clipPolygonID + ' is ' + str(round(length, 2)) + ' miles.')
-
-
 ######################################################################
 # Problem 3 (30 points)
 #
@@ -220,8 +218,70 @@ def estimateTotalLineLengthInPolygons(fcLine, fcClipPolygon, polygonIDFieldName,
 #
 ######################################################################
 def countObservationsWithinDistance(fcPoint, distance, distanceUnit, geodatabase):
-    pass
+    arcpy.env.workspace = geodatabase
+    featureclasses = arcpy.ListFeatureClasses()
+    arcpy.env.overwriteOutput = True
 
+    # Check if the input fcPoint is correct.
+    try:
+        fcPoint_desc = arcpy.Describe(geodatabase + "/" + fcPoint)
+    except OSError:
+        print('The input fcPoint is not valid.')
+        return # If the name of input fcPoint is incorrect, print the warning and exit the function here.
+
+    if fcPoint_desc.shapeType == 'Point':
+        pass
+    else:
+        print('The shape type of the input fcPoint must be point.')
+        return # If the type of the input fcPoint is incorrect, print the warning and skip the below lines here.
+
+    # Check if the input distance is numeric
+    try:
+        float(distance)
+    except:
+        print('The input distance is not valid.')
+        return
+
+    # Check if the input unit is numeric
+    # Standardize the input unit
+    unit_standardize = {'meter': 'meters',
+    'kilometer': 'kilometers',
+    'foot': 'feet',
+    'feets': 'feet',
+    'yard': 'yards',
+    'mile': 'miles',
+    'acre': 'acres',
+    'hectare': 'hectares',
+    'squaremeter': 'squaremeters',
+    'squarekilometer': 'squarekilometers',
+    'squarefoot': 'squarefeet',
+    'squarefeets': 'squarefeet',
+    'squareyard': 'squareyards',
+    'squaremile': 'squaremiles'}
+
+    if unit_standardize.get(distanceUnit.lower()) == '':
+        print('The input distance unit is not valid.')
+        print('Possible units consist of meters, kilometers, feet, yards, miles, acres, hectares, squaremeters, squarekilometers, squarefeet, squareyards, squaremiles')
+        return
+    else:
+        distanceUnit = unit_standardize.get(distanceUnit.lower())
+        distanceUnit = distanceUnit.upper()
+
+    # Identify the projection of the input fcPoint.
+    fcPoint_reference = fcPoint_desc.spatialReference
+    fcPoint_projection = fcPoint_reference.GCS.Name
+
+    if 'WGS' in fcPoint_projection or 'NAD' in fcPoint_projection:
+         # If the coordinate system is not geographic, use the bearing distance
+         print('The projection is a geographic projection and therefore the distance is bearing distance.')
+    else:
+        pass # If the coordinate system is not geographic, directly use the specified threshold distance
+
+    # Summarize
+    fcPoint_circle = fcPoint + '_circle_' + distance + '_' + distanceUnit
+    arcpy.analysis.SummarizeNearby(fcPoint, fcPoint, fcPoint_circle, 'STRAIGHT_LINE', distance, distanceUnit)
+
+    print('\nDone.')
 ######################################################################
 # MAKE NO CHANGES BEYOND THIS POINT.
 ######################################################################
