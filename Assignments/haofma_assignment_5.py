@@ -33,12 +33,7 @@ import arcpy
 import os
 
 def calculateDensity(fcpolygon, attribute, geodatabase):
-    try:
-        arcpy.env.workspace = geodatabase
-    except:
-        print('The geodatabase is not valid.')
-        return # If the input geodatabase is incorrect, print the warning and exit the function here.
-
+    arcpy.env.workspace = geodatabase
     featureclasses = arcpy.ListFeatureClasses()
     arcpy.env.overwriteOutput = True
 
@@ -52,17 +47,18 @@ def calculateDensity(fcpolygon, attribute, geodatabase):
     if fcpolygon_desc.shapeType != 'Polygon':
         print('The shape type of the input fcpolygon must be polygon.') # If the type of the input fcpolygon is incorrect, print the warning and skip the below lines here.
     else:
+
         # Check if the input attribute is correct.
         fields = arcpy.ListFields(fcpolygon)
 
         field_name = [] # A list to collect the names of fields
         for field in fields:
             field_name.append(field.name)
-            field_type.update({field.name: field.type})
 
         if attribute not in field_name: # Check if the input attribute exists in the input fcpolygon.
             print('The input attribute does not exist in the input fcpolygon.')  # If the input attribute is incorrect, print the warning and skip the below lines here.
         else:
+
             # Identify the projection and measurement units of the input fcpolygon.
             fcpolygon_reference = fcpolygon_desc.spatialReference
             fcpolygon_projection = fcpolygon_reference.GCS.Name
@@ -75,7 +71,7 @@ def calculateDensity(fcpolygon, attribute, geodatabase):
             fcpolygon_unit = fcpolygon_reference.linearUnitName
 
             converter = 1 # A unit converter to mile
-            if fcpolygon_unit == "Meter":
+            if fcpolygon_unit == 'Meter':
                 converter = 0.00062137119224
             else:
                 pass
@@ -112,7 +108,105 @@ def calculateDensity(fcpolygon, attribute, geodatabase):
 #
 ######################################################################
 def estimateTotalLineLengthInPolygons(fcLine, fcClipPolygon, polygonIDFieldName, clipPolygonID, geodatabase):
-    pass
+    arcpy.env.workspace = geodatabase
+    featureclasses = arcpy.ListFeatureClasses()
+    arcpy.env.overwriteOutput = True
+
+    # Check if the input fcpolygon is correct.
+    try:
+        fcClipPolygon_desc = arcpy.Describe(geodatabase + "/" + fcClipPolygon)
+    except OSError:
+        print('The input fcClipPolygon is not valid.')
+        return # If the name of input fcClipPolygon is incorrect, print the warning and exit the function here.
+
+    if fcClipPolygon_desc.shapeType == 'Polygon':
+        pass
+    else:
+        print('The shape type of the input fcClipPolygon must be polygon.')
+        return # If the type of the input fcClipPolygon is incorrect, print the warning and skip the below lines here.
+
+    # Check if the input fcLine is correct.
+    try:
+        fcLine_desc = arcpy.Describe(geodatabase + "/" + fcLine)
+    except OSError:
+        print('The input fcLine is not valid.')
+        return # If the name of input fcLine is incorrect, print the warning and exit the function here.
+
+    if fcLine_desc.shapeType == 'Polyline':
+        pass
+    else:
+        print('The shape type of the input fcLine must be polyline.') # If the type of the input fcLine is incorrect, print the warning and skip the below lines here.
+        return
+
+    # Check if the ID field of the input fcClipPolygon is correct.
+    fields_fcClipPolygon = arcpy.ListFields(fcClipPolygon)
+
+    field_fcClipPolygon_name = [] # A list to collect the names of the fields of fcClipPolygon
+    for field in fields_fcClipPolygon:
+        field_fcClipPolygon_name.append(field.name)
+
+    if polygonIDFieldName not in field_fcClipPolygon_name: # Check if the input polygonIDFieldName exists in the input fcClipPolygon.
+        print('The input polygonIDFieldName does not exist in the input fcClipPolygon.')  # If the input polygonIDFieldName is incorrect, print the warning and skip the below lines here.
+        return
+    else:
+        pass
+
+    # Check if the ID value of the input fcClipPolygon is correct.
+    with arcpy.da.SearchCursor(fcClipPolygon, [polygonIDFieldName]) as cursor:
+        polygonIDFieldName_value = [] # A list to collect the values of the ID field
+        for row in cursor:
+            polygonIDFieldName_value.append(row[0])
+
+    if clipPolygonID not in polygonIDFieldName_value: # Check if the input clipPolygonID exists in the input polygonIDFieldName.
+        print('The input clipPolygonID is not a value of the input polygonIDFieldName.')  # If the input clipPolygonID is incorrect, print the warning and skip the below lines here.
+        return
+    else:
+        pass
+
+    # Identify the projection of the input fcClipPolygon.
+    fcClipPolygon_reference = fcClipPolygon_desc.spatialReference
+    fcClipPolygon_projection = fcpolygon_reference.GCS.Name
+
+    # Identify the projection of the input fcLine.
+    fcLine_reference = fcLine_desc.spatialReference
+    fcLine_projection = fcLine_reference.GCS.Name
+
+    # Transform the projection of the input fcLine to that of the input fcClipPolygon if they are not the same
+    if fcLine_projection != fcClipPolygon_projection:
+        fcLine_reprojected = fcLine + '_' + fcClipPolygon_projection
+        arcpy.Project_management(fcLine, fcLine_reprojected, fcClipPolygon_reference)
+        fcLine_name = fcLine # Keep the original input polyline name
+        fcLine = fcLine_reprojected
+        arcpy.management.Delete(fcLine_reprojected)
+    else:
+        pass
+
+    # Identify the measurement units of the input fcClipPolygon
+    # Since here the projection for both the polygon and the polyline should already be the same
+    fcClipPolygon_unit = fcClipPolygon_reference.linearUnitName
+
+    converter = 1 # A unit converter to mile
+    if fcClipPolygon_unit == 'Meter': # If the linear unit is missing, the default should be meter
+        converter = 0.00062137119224
+    else:
+        pass
+
+    # Select the polygon feature by the input ID value
+    where_clause = "\"" + polygonIDFieldName + "\"" + ' = '  + "\'" + clipPolygonID + "\'"
+    arcpy.Select_analysis(fcClipPolygon, clipPolygonID, where_clause)
+
+    # Clip the linear feature class by the selected polygon boundary
+    fcClipped = fcLine + '_Clipped_by_' + clipPolygonID
+    arcpy.analysis.Clip(fcLine, clipPolygonID, fcClipped)
+
+    # Calculate the total length of the input fcLine
+    with arcpy.da.SearchCursor(fcClipped, ['Shape_Length']) as cursor:
+        length = 0
+        for row in cursor:
+            length += row[0] * converter
+
+    return('The total length of ' + fcLine_name + ' within the polygon ' + clipPolygonID + ' is ' + str(round(length, 2)) + ' miles.')
+
 
 ######################################################################
 # Problem 3 (30 points)
